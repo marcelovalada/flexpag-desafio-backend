@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -66,6 +68,7 @@ public class SchedulerService {
     public String delete(long id) {
         Optional<Scheduler> scheduler = repository.findById(id);
         if (Objects.nonNull(scheduler)) {
+            checkDateToChangeStatus(scheduler.get());
             SchedulerDTO schedulerDTO = new SchedulerDTO(scheduler.get());
             if (schedulerDTO.getStatus().equals(EnumStatus.PENDING)) {
                 repository.deleteById(id);
@@ -77,12 +80,13 @@ public class SchedulerService {
         return "Could not delete";
     }
 
-    public SchedulerDTO update(long id, LocalDate newDate) {
+    public SchedulerDTO updateDate(long id, LocalDateTime newDate) {
         Optional<Scheduler> scheduler = repository.findById(id);
         if (Objects.nonNull(scheduler)) {
             Scheduler schedulerNonNull = scheduler.get();
+            checkDateToChangeStatus(schedulerNonNull);
 
-            if (schedulerNonNull.getStatus().equals(EnumStatus.PENDING)) {
+            if (schedulerNonNull.getStatus() == (EnumStatus.PENDING)) {
                 schedulerNonNull.setScheduleDate(newDate);
                 repository.save(schedulerNonNull);
 
@@ -90,5 +94,14 @@ public class SchedulerService {
             }
         }
         return null;
+    }
+
+    public void checkDateToChangeStatus(Scheduler scheduler){
+        LocalDateTime currentDate = LocalDateTime.now();
+        if(currentDate.isBefore(scheduler.getScheduleDate())){
+            scheduler.setStatus(EnumStatus.PENDING);
+        }else{
+            scheduler.setStatus(EnumStatus.PAID);
+        }
     }
 }
