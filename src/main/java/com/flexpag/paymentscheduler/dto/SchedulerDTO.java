@@ -7,6 +7,7 @@ import com.flexpag.paymentscheduler.model.Scheduler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 
@@ -26,7 +27,16 @@ public class SchedulerDTO {
         this.bill=scheduler.getBill();
         this.creditCard=scheduler.getCreditCard();
         this.scheduleDate=scheduler.getScheduleDate();
-        this.status=scheduler.getStatus();
+        // this.status=scheduler.getStatus();
 
+        if(this.currentDate.isBefore(scheduleDate)){
+            this.status = EnumStatus.PENDING;
+        }else{
+            this.status = EnumStatus.PAID;
+        }
+    }
+
+    public static Page<SchedulerDTO> convert(Page<Scheduler> scheduler){
+        return scheduler.map(SchedulerDTO::new);
     }
 }
