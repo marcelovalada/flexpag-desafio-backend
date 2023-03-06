@@ -66,7 +66,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"scheduleDate\": \"2023-03-08\",\r\n    \"bill\": {\r\n        \"idBill\": 1\r\n    },\r\n    \"creditCard\": {\r\n        \"idCreditCard\": 1\r\n    }\r\n}",
+					"raw": "{\r\n    \"scheduleDate\": \"2023-04-28T16:00:49.455\",\r\n    \"bill\": {\r\n        \"idBill\": 1\r\n    },\r\n    \"creditCard\": {\r\n        \"idCreditCard\": 1\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -92,7 +92,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"scheduleDate\": \"2023-03-06\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -100,13 +100,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{local}}/scheduler/1",
+					"raw": "{{local}}/scheduler/1/2023-03-05T18:00:00",
 					"host": [
 						"{{local}}"
 					],
 					"path": [
 						"scheduler",
-						"1"
+						"1",
+						"2023-03-05T18:00:00"
 					]
 				}
 			},
