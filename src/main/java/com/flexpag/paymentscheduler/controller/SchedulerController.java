@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping(value = "/scheduler")
@@ -46,8 +47,11 @@ public class SchedulerController {
     }
 
     @PutMapping("/{id}/{newDate}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @PathVariable("newDate") LocalDateTime newDate){
-        return ResponseEntity.ok().body(service.updateDate(id, newDate));
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @PathVariable("newDate") String newDateString){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(newDateString, formatter);
+
+        return ResponseEntity.ok().body(service.updateDate(id, dateTime));
     }
 
     @DeleteMapping("/{id}")
