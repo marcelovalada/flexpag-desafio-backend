@@ -39,6 +39,25 @@ public class SchedulerService {
         return null;
     }
 
+    public Page<SchedulerDTO> findByStatus(
+            String status,
+            @RequestParam(value = "page", defaultValue = "0") String page,
+            @RequestParam(value = "size", defaultValue = "5") String size) {
+        Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size));
+
+        if (status.equalsIgnoreCase("PAID")) {
+            Page<Scheduler> scheduler = repository.findByStatusPaid(paging);
+
+            return SchedulerDTO.convert(scheduler);
+        } else if (status.equalsIgnoreCase("PENDING")) {
+            Page<Scheduler> scheduler = repository.findByStatusPending(paging);
+
+            return SchedulerDTO.convert(scheduler);
+        } else {
+            return null;
+        }
+    }
+
     public SchedulerDTO create(Scheduler scheduler) {
         Scheduler scheduler2 = repository.save(scheduler);
         return new SchedulerDTO(scheduler2);

@@ -29,6 +29,14 @@ public class SchedulerController {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
+    @GetMapping(value = "/status/{status}")
+    public ResponseEntity<Page<SchedulerDTO>> findByStatus(
+            @PathVariable String status,
+            @RequestParam(value = "page", defaultValue = "0") String page,
+            @RequestParam(value = "size", defaultValue = "5") String size
+    ){
+        return ResponseEntity.ok().body(service.findByStatus(status, page, size));
+    }
 
     @PostMapping
     public ResponseEntity<?> save(@RequestBody Scheduler scheduler){
