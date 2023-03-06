@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -15,10 +17,9 @@ public class Scheduler {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idScheduler;
     @Column(nullable = false)
-    private LocalDate scheduleDate;
+    private LocalDateTime scheduleDate;
     @Enumerated(EnumType.STRING)
     private EnumStatus status = EnumStatus.PENDING;
-
     @OneToOne
     @JoinColumn(name = "idBill")
     private Bill bill;

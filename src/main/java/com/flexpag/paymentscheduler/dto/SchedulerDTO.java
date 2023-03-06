@@ -10,14 +10,15 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SchedulerDTO {
     private long idScheduler;
-    private LocalDate scheduleDate;
-    private LocalDate currentDate = LocalDate.now();
+    private LocalDateTime scheduleDate;
     private EnumStatus status;
     private Bill bill;
     private CreditCard creditCard;
@@ -27,13 +28,7 @@ public class SchedulerDTO {
         this.bill=scheduler.getBill();
         this.creditCard=scheduler.getCreditCard();
         this.scheduleDate=scheduler.getScheduleDate();
-        // this.status=scheduler.getStatus();
-
-        if(this.currentDate.isBefore(scheduleDate)){
-            this.status = EnumStatus.PENDING;
-        }else{
-            this.status = EnumStatus.PAID;
-        }
+        this.status=scheduler.getStatus();
     }
 
     public static Page<SchedulerDTO> convert(Page<Scheduler> scheduler){
